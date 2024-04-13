@@ -1,6 +1,6 @@
 # MassTransit SQL transport example
 
-This repository contains usage examples of the MassTransit SQL transport for parallel processing of partitioned message sequences.
+This repository contains usage examples of the MassTransit SQL transport for parallel processing of partitioned message sequences. The five instances of the Consumer application process incoming messages, while the Sender application generates them according to specified settings. The resulting traces can be viewed in Jaeger.
 
 ## Installation and Setup
 
@@ -8,7 +8,7 @@ This repository contains usage examples of the MassTransit SQL transport for par
     ```
     docker compose up -d jaeger database
     ```
-2. Run the **consumer** application by executing:
+2. Run 5 instances of the **consumer** application by executing:
     ```
     docker compose up --build consumer
     ```
