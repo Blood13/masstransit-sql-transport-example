@@ -1,0 +1,41 @@
+version: '3.1'
+services:
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.55
+    ports:
+        - 6831:6831/udp # accept jaeger.thrift in compact Thrift protocol used by most current Jaeger clients
+        - 6832:6832/udp # accept jaeger.thrift in binary Thrift protocol used by Node.js Jaeger client (because thriftrw npm package does not support compact protocol)
+        - 5775:5775/udp # accept zipkin.thrift in compact Thrift protocol (deprecated; only used by very old Jaeger clients, circa 2016)
+        - 5778:5778 # serve configs, sampling strategies
+        - 4317:4317 # OpenTelemetry Protocol (OTLP) over gRPC
+        - 4318:4318 # OpenTelemetry Protocol (OTLP) over HTTP
+        - 16686:16686 # UI port
+        - 14269:14269 # collector admin port: health check at / and metrics at /metrics
+        - 9411:9411 # Zipkin compatible endpoint
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+
+  database:
+    image: postgres
+    command: -c 'max_connections=1000'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
+
+  consumer:
+    build:
+      context: .
+      dockerfile: Example.Consumer/Dockerfile
+    deploy:
+      replicas: 5
+
+  sender:
+    build:
+      context: .
+      dockerfile: Example.Sender/Dockerfile
+    deploy:
+      replicas: 1
+
+    
