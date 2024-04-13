@@ -1,6 +1,6 @@
 # MassTransit SQL transport example
 
-This repository contains usage examples of the MassTransit SQL transport for parallel processing of partitioned message sequences. The five instances of the Consumer application process incoming messages, while the Sender application generates them according to specified settings. The resulting traces can be viewed in Jaeger.
+This repository contains usage examples of the MassTransit SQL transport for parallel processing of partitioned message sequences. The five instances of the Consumer application process incoming messages according to specified receive mode, while the Sender application generates them. The resulting traces can be viewed in Jaeger.
 
 ## Installation and Setup
 
